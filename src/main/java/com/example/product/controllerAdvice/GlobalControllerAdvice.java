@@ -12,6 +12,6 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(InvalidProductIdException.class)
     public ResponseEntity<ErrorResponseDto> handleInvalidProduct(){
-        return new ResponseEntity<>(new ErrorResponseDto("Invalid Product from Global Advice"), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ErrorResponseDto("Invalid Product from Global Controller Advice"), HttpStatus.NOT_FOUND);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.product;
 
+import com.example.product.repositories.ProductWithSpecificDetails;
 import com.example.product.models.Product;
 import com.example.product.repositories.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -34,4 +35,15 @@ class ProductApplicationTests {
 		}
 	}
 
+	@Test
+	public void getProduct(){
+		Product product = productRepository.getProductById(1l);
+		System.out.println(product.getName() + " "+ product.getDescription());
+	}
+
+	@Test
+	public void getSpecificDetails(){
+		ProductWithSpecificDetails product = productRepository.getSpecificDetails(4l);
+		System.out.println(product.getTitle() + " "+ product.getMrp()+" "+product.getId());
+	}
 }
