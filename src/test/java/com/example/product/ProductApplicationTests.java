@@ -43,7 +43,19 @@ class ProductApplicationTests {
 
 	@Test
 	public void getSpecificDetails(){
-		ProductWithSpecificDetails product = productRepository.getSpecificDetails(4l);
-		System.out.println(product.getTitle() + " "+ product.getMrp()+" "+product.getId());
+		ProductWithSpecificDetails p = productRepository.getSpecificDetails(4l);
+		System.out.println(p.getTitle() + " "+ p.getMrp()+" "+p.getId());
+	}
+
+	@Test
+	public void getWithNativQuery(){
+		Product product = productRepository.getProductWithMySql(3l);
+		System.out.println(product.getName() + " "+ product.getDescription());
+	}
+
+	@Test
+	public void getWithNativQuerySpecificDetails(){
+		ProductWithSpecificDetails product = productRepository.getProductWithMySqlSpecificDtails(3l);
+		System.out.println(product.getTitle() + " "+ product.getMrp());
 	}
 }

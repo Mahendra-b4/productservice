@@ -22,4 +22,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p.id as id, p.name as title, p.price as mrp from Product p where p.id = :id")
     ProductWithSpecificDetails getSpecificDetails(@Param("id") Long id);
+
+    @Query(value = "select * from Product p where p.id = :id", nativeQuery = true)
+    Product getProductWithMySql(@Param("id") Long id);
+
+    @Query(value = "select id as id, name as title, price as mrp from Product p where p.id = :id", nativeQuery = true)
+    ProductWithSpecificDetails getProductWithMySqlSpecificDtails(@Param("id") Long id);
 }
