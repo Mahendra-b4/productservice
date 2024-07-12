@@ -18,7 +18,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    @Qualifier("selfProductService")
+    @Qualifier("fakeStoreProductService")
     private IProductService productService;
 
     // Get all the products

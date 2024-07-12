@@ -7,6 +7,7 @@ import com.example.product.models.Category;
 import com.example.product.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpMessageConverterExtractor;
@@ -21,7 +22,10 @@ import java.util.List;
 public class FakeStoreProductService implements IProductService{
 
     @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private RedisTemplate<String, Long> redisTemplate;
 
     public Product getProductFromResponseDto(ProductResponseDto responseDto){
         Product product = new Product();
@@ -44,14 +48,21 @@ public class FakeStoreProductService implements IProductService{
         // I should pass this 'id' to fakestore and get the details of this product.
         // "https://fakestoreapi.com/products/1"
 
+        if(redisTemplate.opsForHash().hasKey("PRODUCTS", id)){
+            return (Product) redisTemplate.opsForHash().get("PRODUCTS", id);
+        }
+
         if(id > 20){
             throw new InvalidProductIdException();
         }
 
         ProductResponseDto response = restTemplate.getForObject("https://fakestoreapi.com/products/" + id,
                 ProductResponseDto.class);
+        Product product = getProductFromResponseDto(response);
 
-        return getProductFromResponseDto(response);
+        redisTemplate.opsForHash().put("PRODUCTS", id, product);
+
+        return product;
     }
 
     @Override
