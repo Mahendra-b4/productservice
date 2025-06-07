@@ -3,6 +3,7 @@ package com.example.product.services;
 import com.example.product.dtos.ProductRequestDto;
 import com.example.product.exceptions.InvalidProductIdException;
 import com.example.product.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface IProductService {
     Product updateProduct(Long id, ProductRequestDto productRequestDto) throws InvalidProductIdException;
 
     public boolean deleteProduct(Long id);
+
+    Page<Product> getProductsByName(String name, int pageSize, int st_index);
 }

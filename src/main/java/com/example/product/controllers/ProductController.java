@@ -8,6 +8,7 @@ import com.example.product.services.IProductService;
 import com.example.product.exceptions.InvalidProductIdException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,16 +19,17 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    @Qualifier("fakeStoreProductService")
+    @Qualifier("selfProductService")
     private IProductService productService;
 
     // Get all the products
     @GetMapping("/products")
     public List<Product> getAllProducts(){
+        System.out.println("Hi in Controller");
         return productService.getAllProducts();
     }
 
-    // Get a product with Id
+    // Get a product with id
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductWrapper> getSingleProduct(@PathVariable("id") Long id) throws InvalidProductIdException {
         ResponseEntity<ProductWrapper> response;
@@ -47,6 +49,13 @@ public class ProductController {
 //        return new ResponseEntity<>(new ErrorResponseDto("Invalid Product from Controller"), HttpStatus.NOT_FOUND);
 //    }
 
+
+    @GetMapping("/products/search/")
+    public Page<Product> getProductsByName(@RequestParam("name") String name,
+                                           @RequestParam("pagesize") int pageSize,
+                                           @RequestParam("startingElementIndex") int st_index){
+        return productService.getProductsByName(name, pageSize, st_index);
+    }
     @PostMapping("/products")
     public Product addProduct(@RequestBody ProductRequestDto productRequestDto){
         return productService.addProduct(productRequestDto);

@@ -7,6 +7,7 @@ import com.example.product.models.Category;
 import com.example.product.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -123,6 +124,11 @@ public class FakeStoreProductService implements IProductService{
     public boolean deleteProduct(Long id) {
         restTemplate.delete("https://fakestoreapi.com/products/" + id);
         return false;
+    }
+
+    @Override
+    public Page<Product> getProductsByName(String name, int pageSize, int st_index) {
+        return null;
     }
 
 

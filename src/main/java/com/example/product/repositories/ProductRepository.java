@@ -1,6 +1,8 @@
 package com.example.product.repositories;
 
 import com.example.product.models.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,4 +30,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value = "select id as id, name as title, price as mrp from Product p where p.id = :id", nativeQuery = true)
     ProductWithSpecificDetails getProductWithMySqlSpecificDtails(@Param("id") Long id);
+
+    Page<Product> findAllByNameContaining(String name, Pageable pageable);
+
+    List<Product> findAll();
 }

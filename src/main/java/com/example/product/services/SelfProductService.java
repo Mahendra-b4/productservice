@@ -8,6 +8,9 @@ import com.example.product.repositories.CategoryRepository;
 import com.example.product.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,7 +37,10 @@ public class SelfProductService implements IProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return null;
+        System.out.println("in service before repo call");
+        List<Product> productList = productRepository.findAll();
+        System.out.println("in service after repo call");
+        return productList;
     }
 
     @Override
@@ -106,5 +112,12 @@ public class SelfProductService implements IProductService {
     @Override
     public boolean deleteProduct(Long id) {
         return false;
+    }
+
+    @Override
+    public Page<Product> getProductsByName(String name, int pageSize, int st_index) {
+        Page<Product> productPage = productRepository.findAllByNameContaining(name,
+                PageRequest.of(st_index/pageSize, pageSize));
+        return productPage;
     }
 }
